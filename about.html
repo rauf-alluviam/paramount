@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us – Paramount Propack</title>
+  <link rel="stylesheet" href="css/about.css">
+</head>
+<body>
+  <section class="about">
+    <div class="about-container">
+      <div class="about-text fade-left">
+        <h2>About Us</h2>
+        <p>
+          <strong>Paramount Propack Pvt. Ltd.</strong> is one of India’s leading manufacturers of industrial packaging solutions.
+          Through our <strong>Autorack</strong> division, we deliver specialized plastic crates and customized partitions
+          built exclusively for the automotive sector.
+        </p>
+        <p>
+          Our products are designed to:
+        </p>
+        <ul>
+          <li>Optimize storage and in-plant movement</li>
+          <li>Protect valuable components</li>
+          <li>Reduce handling damage and losses</li>
+        </ul>
+      </div>
+
+      <div class="about-image fade-right">
+        <div class="img-overlay"></div>
+        <img src="factory-image.png" alt="Factory Overview">
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Scroll Animation Logic
+    const elements = document.querySelectorAll('.fade-left, .fade-right');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

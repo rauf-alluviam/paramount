@@ -1,0 +1,145 @@
+/* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: #1e2d3d;
+  background-color: #f9fbfc;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ---------- ABOUT SECTION ---------- */
+.about {
+  padding: 100px 8%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 60px;
+  max-width: 1200px;
+}
+
+/* ---------- TEXT ---------- */
+.about-text {
+  flex: 1 1 500px;
+}
+
+.about-text h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.about-text h2::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background: #0096e2;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  border-radius: 2px;
+}
+
+.about-text p {
+  margin-top: 20px;
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.about-text ul {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.about-text li {
+  padding-left: 25px;
+  margin-bottom: 10px;
+  position: relative;
+  color: #2e3e52;
+  font-weight: 500;
+}
+
+.about-text li::before {
+  content: "•";
+  color: #0096e2;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* ---------- IMAGE ---------- */
+.about-image {
+  flex: 1 1 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 6s ease-in-out;
+}
+
+.about-image:hover img {
+  transform: scale(1.08);
+}
+
+.img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, rgba(0, 90, 170, 0.45), rgba(0, 140, 210, 0.3));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---------- ANIMATIONS ---------- */
+.fade-left,
+.fade-right {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s ease-out;
+}
+
+.fade-left.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-right.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+  }
+  .about-text h2 {
+    text-align: center;
+  }
+  .about-text h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .about-text {
+    text-align: center;
+  }
+}
