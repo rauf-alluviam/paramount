@@ -80,3 +80,14 @@ const revealOnScroll = () => {
 };
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
+// Simple fade-up animation on scroll
+const cards = document.querySelectorAll('.why-card, .why-image');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.2 });
+
+cards.forEach(card => observer.observe(card));

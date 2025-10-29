@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Gallery - AutoRack</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #fafafa;
+            color: #222;
+        }
+
+        /* Header Section */
+        .gallery-header {
+            text-align: center;
+            padding: 80px 5% 60px;
+            background: linear-gradient(135deg, #0b132b 0%, #1a2a4d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                120deg,
+                transparent 0%,
+                rgba(245, 137, 41, 0.05) 2%,
+                transparent 4%
+            );
+            animation: shimmer 15s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            color: #f58929;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-header h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-header h1 span {
+            background: linear-gradient(90deg, #f58929, #bb2734);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gallery-header p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            color: #444;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 8px;
+        }
+
+        .filter-btn:hover {
+            border-color: #f58929;
+            color: #f58929;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(90deg, #bb2734, #f58929);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(245, 137, 41, 0.3);
+        }
+
+        /* Gallery Grid */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 5% 100px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Product Card */
+        .product-card {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #bb2734, #f58929);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: 2;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(245, 137, 41, 0.3);
+            box-shadow: 0 15px 40px rgba(245, 137, 41, 0.2);
+        }
+
+        /* Image Container */
+        .image-container {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.08);
+        }
+
+        /* Image Number Badge */
+        .image-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #0b132b 0%, #1a2a4d 100%);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Loading Skeleton */
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Lightbox Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 19, 43, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+            animation: zoomIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .overlay-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border: 2px solid rgba(245, 137, 41, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: linear-gradient(90deg, #bb2734, #f58929);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 300;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 15px rgba(245, 137, 41, 0.4);
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(90deg, #bb2734, #f58929);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .nav-arrow:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 15px rgba(245, 137, 41, 0.5);
+        }
+
+        .nav-arrow.prev { left: 20px; }
+        .nav-arrow.next { right: 20px; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #0b132b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gallery-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .image-container {
+                height: 280px;
+            }
+
+            .filter-bar {
+                padding: 30px 15px;
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .nav-arrow.prev { left: 10px; }
+            .nav-arrow.next { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="gallery-header">
+        <span class="section-tag">Our Products</span>
+        <h1>Product <span>Gallery</span></h1>
+        <p>Explore our complete range of high-quality industrial products</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <!-- <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Products</button>
+        <button class="filter-btn" data-filter="category-1">Category 1</button>
+        <button class="filter-btn" data-filter="category-2">Category 2</button>
+        <button class="filter-btn" data-filter="category-3">Category 3</button>
+    </div> -->
+
+    <!-- Gallery Container -->
+    <div class="gallery-container">
+        <div class="gallery-grid" id="gallery"></div>
+    </div>
+
+    <!-- Lightbox Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeOverlay()">×</button>
+            <button class="nav-arrow prev" onclick="navigateImage(-1)">‹</button>
+            <button class="nav-arrow next" onclick="navigateImage(1)">›</button>
+            <img id="overlay-image" src="" alt="Product">
+        </div>
+    </div>
+
+    <script>
+        // Generate 28 products with placeholder images
+const products = Array.from({ length: 28 }, (_, i) => ({
+    id: i + 1,
+    category: `category-${(i % 3) + 1}`,
+    image: `./assets/IMG_${i + 1}.jpg`
+}));
+
+
+        const gallery = document.getElementById('gallery');
+        let currentFilter = 'all';
+        let currentImageIndex = 0;
+        let filteredProducts = [];
+
+        function createProductCard(product, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.dataset.category = product.category;
+            card.dataset.index = index;
+            
+            card.innerHTML = `
+                <div class="image-container">
+                    <img class="product-image loading-skeleton" data-src="${product.image}" alt="Product ${product.id}">
+                    <div class="image-number">#${String(product.id).padStart(2, '0')}</div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                currentImageIndex = index;
+                openOverlay(product.image);
+            });
+
+            return card;
+        }
+
+        function renderGallery() {
+            gallery.innerHTML = '';
+            filteredProducts = products.filter(product => 
+                currentFilter === 'all' || product.category === currentFilter
+            );
+
+            if (filteredProducts.length === 0) {
+                gallery.innerHTML = '<div class="empty-state"><h3>No products found</h3><p>Try selecting a different category</p></div>';
+                return;
+            }
+
+            filteredProducts.forEach((product, index) => {
+                gallery.appendChild(createProductCard(product, index));
+            });
+
+            lazyLoadImages();
+        }
+
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('.product-image[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.onload = () => {
+                            img.classList.remove('loading-skeleton');
+                        };
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderGallery();
+            });
+        });
+
+        // Lightbox functions
+        function openOverlay(imageSrc) {
+            document.getElementById('overlay-image').src = imageSrc;
+            document.getElementById('overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOverlay() {
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = filteredProducts.length - 1;
+            if (currentImageIndex >= filteredProducts.length) currentImageIndex = 0;
+            
+            document.getElementById('overlay-image').src = filteredProducts[currentImageIndex].image;
+        }
+
+        // Close overlay on background click
+        document.getElementById('overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('overlay').classList.contains('active')) {
+                if (e.key === 'Escape') closeOverlay();
+                if (e.key === 'ArrowLeft') navigateImage(-1);
+                if (e.key === 'ArrowRight') navigateImage(1);
+            }
+        });
+
+        // Initial render
+        renderGallery();
+    </script>
+    <script>
+  // Load Header
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    });
+
+  // Load Footer
+  fetch("footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+</script>
+    <div id="footer"></div>
+</body>
+</html>
