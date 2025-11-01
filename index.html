@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paramount Propack – Autorack</title>
-
+    <link rel="icon" href="assets/logo.png" type="image/png" />
   <!-- Google Font & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a2d9f8f7b1.js" crossorigin="anonymous"></script>
+ <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
 
   <!-- Styles -->
   <link rel="stylesheet" href="/css/style.css" />
@@ -37,31 +41,39 @@
     </div>
   </div>
 
-  <!-- ---------- MAIN HEADER ---------- -->
-  <header id="mainHeader" class="main-header">
-    <div class="container header-inner">
-      <div class="logo">
-        <img src="/assets/icon-logo.png" alt="P Icon" class="logo-icon" />
-        <img src="/assets/logo.png" alt="Full Logo" class="logo-full" />
-      </div>
+  
+<!-- ---------- MAIN HEADER ---------- -->
+<header id="mainHeader" class="main-header">
+  <div class="container header-inner">
 
-      <nav class="navbar">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="/productgalary.html">Products</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#core offering">Core Offerings</a></li>
-          <li><a href="#whychooseus">Why Choose Autorack</a></li>
-          <li><a href="/footer.html">Contact</a></li>
-        </ul>
-      </nav>
-
-      <a href="#" class="quote-btn">Get a Quote</a>
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="/assets/icon-logo.png" alt="P Icon" class="logo-icon" />
+      <img src="/assets/logo.png" alt="Full Logo" class="logo-full" />
     </div>
-  </header>
-<!-- ---------- HERO SECTION ---------- -->
-<!-- ---------- HERO SECTION ---------- -->
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="/productgalary.html">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#core offering">Core Offerings</a></li>
+        <li><a href="#whychooseus">Why Choose Autorack</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- CTA BUTTON -->
+    <a href="#" class="quote-btn">Get a Quote</a>
+
+    <!-- ✅ MOVE MENU TOGGLE TO THE RIGHT -->
+    <div class="menu-toggle" id="menuToggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </div>
+</header>
+<!-- ---------- HERO SECTION ---------- -->
 <section class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-motion"></div>
@@ -72,8 +84,8 @@
     <h1>Smart. <span>Strong.</span> Reliable.</h1>
     <p>We don’t just know plastic. We know how to deliver <strong>solutions</strong> — reusable, customizable, and traceable packaging trusted by OEMs and Tier suppliers.</p>
     <div class="hero-buttons">
-      <a href="#products" class="hero-btn primary">Explore Products</a>
-      <a href="#contact" class="hero-btn secondary">Contact Us</a>
+      <a href="/productgalary.html" class="hero-btn primary">Explore Products</a>
+      <a href="/contact.html" class="hero-btn secondary">Contact Us</a>
     </div>
   </div>
 </section>
@@ -364,7 +376,7 @@
     </div>
   </div>
 </section>
-<section id="get-quote"class="get-quote">
+<section id="get-quote" class="get-quote">
   <div class="quote-container">
     <div class="quote-image">
       <img src="/assets/requ-left.jpg" alt="Get Quote Image">
@@ -377,18 +389,18 @@
         <p>Get in touch with us for customized packaging and logistics solutions.</p>
       </div>
 
-      <form>
+      <form id="quoteForm">
         <div class="form-group">
-          <input type="text" placeholder="Name*" required>
-          <input type="tel" placeholder="Phone Number*" required>
+          <input type="text" id="name" placeholder="Name*" required>
+          <input type="tel" id="phone" placeholder="Phone Number*" required>
         </div>
 
         <div class="form-group">
-          <input type="email" placeholder="Email*" required>
+          <input type="email" id="email" placeholder="Email*" required>
         </div>
 
         <div class="form-group">
-          <textarea placeholder="Message*" rows="4" required></textarea>
+          <textarea id="message" placeholder="Message (optional)" rows="4"></textarea>
         </div>
 
         <button type="submit" class="btn-quote">Request A Quote</button>
@@ -397,6 +409,16 @@
   </div>
 </section>
 
+
+<!-- Success Popup -->
+<div id="successPopup" class="popup">
+  <div class="popup-content">
+    <img src="assets/success.svg" alt="Success" />
+    <h2>Thank You!</h2>
+    <p>Your enquiry has been sent successfully.</p>
+    <button id="closePopup">OK</button>
+  </div>
+</div>
 
 <!-- Footer will load here -->
 <div id="footer"></div>

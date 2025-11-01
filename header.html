@@ -4,31 +4,267 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paramount Propack – Autorack</title>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
 
-  <!-- Google Font & Font Awesome -->
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a2d9f8f7b1.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Styles -->
+  <!-- Main Styles -->
   <link rel="stylesheet" href="/css/style.css" />
+  
+  <style>
+    /* Additional styles for scroll effect */
+    .topbar {
+      transition: all 0.3s ease;
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      height: auto;
+    }
+    
+    .topbar.hidden {
+      height: 0;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    
+    /* Make header white on scroll */
+    .main-header.scrolled {
+      background-color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Make menu links black on scroll */
+    .main-header.scrolled .navbar ul li a {
+      color: #000000 !important;
+    }
+    
+    /* Make quote button black on scroll */
+    .main-header.scrolled .quote-btn {
+      color: #000000 !important;
+      border-color: #000000 !important;
+    }
+    
+    /* Make mobile menu icon black on scroll */
+    .main-header.scrolled .menu-toggle i {
+      color: #000000 !important;
+    }
+    
+    /* Make logo visible on white background if needed */
+    .main-header.scrolled .logo img {
+      filter: brightness(0.2);
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN - MOBILE & TABLET
+       ============================================ */
+    
+    /* Mobile Menu Styles */
+    @media (max-width: 992px) {
+      /* Topbar responsive */
+      .topbar-inner {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 15px;
+      }
+      
+      .topbar-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        width: 100%;
+      }
+      
+      .topbar-left .top-link {
+        font-size: 12px;
+      }
+      
+      .topbar-right {
+        justify-content: flex-start;
+        gap: 15px;
+      }
+      
+      /* Header responsive */
+      .header-inner {
+        padding: 15px 20px;
+      }
+      
+      /* Show menu toggle */
+      .menu-toggle {
+        display: block !important;
+        cursor: pointer;
+        font-size: 24px;
+        z-index: 1001;
+      }
+      
+      /* Hide quote button on mobile */
+      .quote-btn {
+        display: none !important;
+      }
+      
+      /* Mobile Navigation */
+      .navbar ul {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 80px 30px 30px;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        overflow-y: auto;
+      }
+      
+      .navbar ul.active {
+        right: 0;
+      }
+      
+      .navbar ul li {
+        width: 100%;
+        margin: 0;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .navbar ul li a {
+        color: #000000 !important;
+        font-size: 16px;
+        display: block;
+        width: 100%;
+      }
+      
+      /* Logo adjustments */
+      .logo {
+        max-width: 150px;
+      }
+      
+      .logo-full {
+        max-height: 35px;
+      }
+      
+      .logo-icon {
+        max-height: 35px;
+      }
+    }
+    
+    /* Tablet specific adjustments */
+    @media (min-width: 768px) and (max-width: 992px) {
+      .topbar-left {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .navbar ul {
+        width: 320px;
+      }
+      
+      .logo {
+        max-width: 180px;
+      }
+    }
+    
+    /* Small mobile devices */
+    @media (max-width: 576px) {
+      .topbar-left .top-link {
+        font-size: 11px;
+      }
+      
+      .topbar-left .top-link i {
+        font-size: 10px;
+      }
+      
+      .topbar-right a {
+        font-size: 14px;
+      }
+      
+      .logo {
+        max-width: 130px;
+      }
+      
+      .logo-full {
+        max-height: 30px;
+      }
+      
+      .navbar ul {
+        width: 260px;
+        padding: 70px 20px 20px;
+      }
+      
+      .menu-toggle {
+        font-size: 22px;
+      }
+    }
+    
+    /* Desktop - ensure menu toggle is hidden */
+    @media (min-width: 993px) {
+      .menu-toggle {
+        display: none !important;
+      }
+      
+      .navbar ul {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        background: transparent;
+        padding: 0;
+        box-shadow: none;
+      }
+    }
+    
+    /* Overlay for mobile menu */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
 </head>
 <body>
+  <!-- Mobile Menu Overlay -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+
   <!-- ---------- TOPBAR ---------- -->
-  <div class="topbar">
+  <div class="topbar" id="topbar">
     <div class="container topbar-inner">
       <div class="topbar-left">
         <a href="mailto:info@paramountpropack.com" class="top-link">
           <i class="fa-solid fa-envelope"></i> krishnapal.puvar@pfpstore.com
         </a>
         <a href="tel:+919876543210" class="top-link">
-          <i class="fa-solid fa-phone"></i> +9191 99243 04979
+          <i class="fa-solid fa-phone"></i> +91 99243 04979
         </a>
         <a href="https://goo.gl/maps/abcd1234" target="_blank" class="top-link">
-          <i class="fa-solid fa-location-dot"></i> Chhatral – Kadi Road, 382729
- Gujarat, India
-
+          <i class="fa-solid fa-location-dot"></i> Chhatral – Kadi Road, 382729 Gujarat, India
         </a>
       </div>
+
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
@@ -40,24 +276,133 @@
   <!-- ---------- MAIN HEADER ---------- -->
   <header id="mainHeader" class="main-header">
     <div class="container header-inner">
+      <!-- LOGO -->
       <div class="logo">
         <img src="/assets/icon-logo.png" alt="P Icon" class="logo-icon" />
         <img src="/assets/logo.png" alt="Full Logo" class="logo-full" />
       </div>
 
+      <!-- NAVBAR -->
       <nav class="navbar">
-        <ul>
-          <li><a href="/index.html">Home</a></li>
+        <ul id="navMenu">
+          <li><a href="/index.html#home">Home</a></li>
           <li><a href="/productgalary.html">Products</a></li>
-          <li><a href="/index.html">About</a></li>
-          <li><a href="/index.html">Core Offerings</a></li>
-          <li><a href="/index.html">Why Choose Autorack</a></li>
-          <li><a href="/footer.html">Contact</a></li>
+          <li><a href="/index.html#about">About</a></li>
+          <li><a href="/index.html#core-offering">Core Offerings</a></li>
+          <li><a href="/index.html#whychooseus">Why Choose Autorack</a></li>
+          <li><a href="/contact.html">Contact</a></li>
         </ul>
       </nav>
 
-      <a href="#" class="quote-btn">Get a Quote</a>
+      <!-- CTA BUTTON -->
+      <a href="/contact.html" class="quote-btn">Get a Quote</a>
+
+      <!-- MENU TOGGLE (MOBILE) -->
+      <div class="menu-toggle" id="menuToggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
     </div>
   </header>
+
+  <!-- JS for scroll + toggle -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const mainHeader = document.getElementById("mainHeader");
+      const topbar = document.getElementById("topbar");
+      const menuToggle = document.getElementById("menuToggle");
+      const navMenu = document.getElementById("navMenu");
+      const menuOverlay = document.getElementById("menuOverlay");
+      const navLinks = navMenu.querySelectorAll("a");
+
+      // Calculate initial padding for body
+      const updateBodyPadding = () => {
+        let totalHeight = mainHeader.offsetHeight;
+        
+        // Only add topbar height if it's not hidden
+        if (topbar && !topbar.classList.contains('hidden')) {
+          totalHeight += topbar.offsetHeight;
+        }
+        
+        document.body.style.paddingTop = totalHeight + "px";
+      };
+
+      // Set initial body padding
+      updateBodyPadding();
+
+      // Toggle Menu for Mobile
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle("active");
+        menuOverlay.classList.toggle("active");
+        menuToggle.classList.toggle("open");
+        menuToggle.innerHTML = menuToggle.classList.contains("open")
+          ? '<i class="fa-solid fa-xmark"></i>'
+          : '<i class="fa-solid fa-bars"></i>';
+        
+        // Prevent body scroll when menu is open
+        if (navMenu.classList.contains("active")) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "";
+        }
+      });
+
+      // Close menu when clicking overlay
+      menuOverlay.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        menuOverlay.classList.remove("active");
+        menuToggle.classList.remove("open");
+        menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        document.body.style.overflow = "";
+      });
+
+      // Close menu when clicking a nav link
+      navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("active");
+          menuOverlay.classList.remove("active");
+          menuToggle.classList.remove("open");
+          menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+          document.body.style.overflow = "";
+        });
+      });
+
+      // Scroll behavior
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.scrollY;
+
+        if (currentScroll > 50) {
+          // Scrolling down - hide topbar and make header white
+          if (topbar) {
+            topbar.classList.add("hidden");
+          }
+          mainHeader.classList.add("scrolled");
+        } else {
+          // At top - show topbar and remove white background
+          if (topbar) {
+            topbar.classList.remove("hidden");
+          }
+          mainHeader.classList.remove("scrolled");
+        }
+
+        // Update body padding after changes
+        setTimeout(updateBodyPadding, 300);
+      });
+
+      // Update padding on window resize
+      window.addEventListener("resize", () => {
+        updateBodyPadding();
+        
+        // Close mobile menu on resize to desktop
+        if (window.innerWidth > 992) {
+          navMenu.classList.remove("active");
+          menuOverlay.classList.remove("active");
+          menuToggle.classList.remove("open");
+          menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+          document.body.style.overflow = "";
+        }
+      });
+    });
+  </script>
 </body>
 </html>

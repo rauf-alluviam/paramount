@@ -11,178 +11,189 @@
   />
 
   <style>
-    /* ========== FOOTER STYLES (SCOPED) ========== */
+    /* ========== CLASSY FOOTER ========== */
     footer.paramount-footer {
-      background: linear-gradient(135deg, #fff, #fff);
+      background: linear-gradient(135deg, #ffffff 0%, #f7f7f7 100%);
       color: #111;
-      padding: 60px 0 20px;
-      border-top: 4px solid #f58929;
+      padding: 70px 0 30px;
       font-family: "Inter", sans-serif;
-      isolation: isolate; /* Prevent global bleed */
+      border-top: 4px solid #f58929;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative gradient glow */
+    footer.paramount-footer::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(245,137,41,0.08), transparent 60%);
+      z-index: 0;
+      pointer-events: none;
     }
 
     footer.paramount-footer .footer-container {
+      position: relative;
+      z-index: 1;
       width: 90%;
       max-width: 1200px;
       margin: auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 40px;
+      gap: 50px;
     }
 
-    footer.paramount-footer .footer-column {
+    .footer-column {
       flex: 1 1 300px;
+      min-width: 260px;
     }
 
-    footer.paramount-footer h4 {
+    .footer-column h4 {
       font-size: 1.3rem;
       color: #f58929;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       border-bottom: 2px solid #f58929;
       display: inline-block;
-      padding-bottom: 5px;
+      padding-bottom: 6px;
+      letter-spacing: 0.5px;
+      position: relative;
     }
 
-    footer.paramount-footer p,
-    footer.paramount-footer a,
-    footer.paramount-footer li {
-      color: #111;
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .footer-column p,
+    .footer-column a,
+    .footer-column li {
+      color: #222;
+      font-size: 0.96rem;
+      line-height: 1.8;
       text-decoration: none;
+      transition: color 0.3s ease;
     }
 
-    footer.paramount-footer a:hover {
+    .footer-column a:hover {
       color: #f58929;
     }
 
-    footer.paramount-footer ul {
+    .footer-column ul {
       list-style: none;
       padding: 0;
     }
 
-    footer.paramount-footer ul li {
+    .footer-column ul li {
       margin-bottom: 10px;
     }
 
-    footer.paramount-footer ul li a {
-      transition: color 0.3s ease;
+    .footer-column strong {
+      color: #000;
     }
 
-    footer.paramount-footer ul li a:hover {
-      color: #f58929;
-    }
-
-    footer.paramount-footer .map-link {
-      display: inline-block;
-      color: #111;
-      transition: color 0.3s ease;
-    }
-
-    footer.paramount-footer .map-link:hover {
-      color: #f58929;
-      text-decoration: underline;
-    }
-
-    footer.paramount-footer .social-links {
+    /* Social Icons */
+    .social-links {
       margin-top: 15px;
     }
 
-    footer.paramount-footer .social-links a {
+    .social-links a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 35px;
-      height: 35px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #111;
-      border-radius: 50%;
+      width: 38px;
+      height: 38px;
       margin-right: 10px;
+      border-radius: 50%;
+      background-color: #f1f1f1;
+      color: #111;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
     }
 
-    footer.paramount-footer .social-links a:hover {
+    .social-links a:hover {
       background-color: #f58929;
-      transform: translateY(-3px);
+      color: #fff;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(245,137,41,0.4);
     }
 
-    footer.paramount-footer .footer-bottom {
+    /* Footer bottom */
+    .footer-bottom {
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      margin-top: 40px;
+      border-top: 1px solid #e4e4e4;
+      margin-top: 50px;
       padding-top: 20px;
       font-size: 0.9rem;
-      color: #111;
+      color: #444;
     }
 
-    footer.paramount-footer .footer-bottom strong {
-      color: #111;
+    .footer-bottom strong {
+      color: #000;
     }
 
-    @media (max-width: 768px) {
-      footer.paramount-footer .footer-container {
+    /* Mobile responsive */
+    @media (max-width: 900px) {
+      .footer-container {
         flex-direction: column;
         text-align: center;
+        gap: 40px;
       }
 
-      footer.paramount-footer .social-links {
+      .footer-column h4 {
+        margin-bottom: 10px;
+      }
+
+      .social-links {
         justify-content: center;
+      }
+
+      .footer-column a,
+      .footer-column p {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .footer-column h4 {
+        font-size: 1.1rem;
+      }
+
+      .social-links a {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
       }
     }
   </style>
-
-  <script>
-    // Smooth scroll for internal section links
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      });
-    });
-  </script>
 </head>
 
 <body>
   <!-- ========== FOOTER START ========== -->
   <footer class="paramount-footer">
     <div class="footer-container">
-      <!-- About Us -->
       <div class="footer-column about">
         <h4>About Us</h4>
         <p>
-          We, <strong>Paramount Propack Pvt. Ltd.</strong>, established in 2013 and based in Ahmedabad (Gujarat, India),
-          are a well-known company that manufactures and trades a variety of high-quality packaging materials.
+          <strong>Paramount Propack Pvt. Ltd.</strong>, established in 2013 in Ahmedabad, Gujarat, is a leading
+          manufacturer and trader of high-quality packaging materials designed to deliver strength, sustainability, and efficiency.
         </p>
       </div>
 
-      <!-- Contact Info -->
       <div class="footer-column contact">
         <h4>Contact Us</h4>
         <p><strong>Krishnapal Puvar</strong><br>Sales & Marketing Manager</p>
-        <p><a href="tel:+919924304979" target="_blank">+91 99243 04979</a></p>
-        <p><a href="mailto:krishnapal.puvar@pfpstore.com" target="_blank">krishnapal.puvar@pfpstore.com</a></p>
+        <p><a href="tel:+919924304979">+91 99243 04979</a></p>
+        <p><a href="mailto:krishnapal.puvar@pfpstore.com">krishnapal.puvar@pfpstore.com</a></p>
 
         <p><strong>Head Office:</strong><br>
-          <a
-            href="https://www.google.com/maps?q=Dharti+Apollo+Industrial+Park+C-125+to+127,+Phase-II,+Chhatral–Kadi+Road,+382729,+Gujarat,+India"
-            target="_blank"
-            class="map-link"
-          >
-            Dharti Apollo Industrial Park,<br />
-            C-125 to 127, Phase-II,<br />
-            Chhatral – Kadi Road, 382729,<br />
-            Gujarat, India
+          <a href="https://www.google.com/maps?q=Dharti+Apollo+Industrial+Park+C-125+to+127,+Phase-II,+Chhatral–Kadi+Road,+382729,+Gujarat,+India" target="_blank">
+            Dharti Apollo Industrial Park, C-125 to 127,<br />
+            Phase-II, Chhatral – Kadi Road,<br />
+            Gujarat, India 382729
           </a>
         </p>
       </div>
 
-      <!-- Quick Links -->
       <div class="footer-column links">
         <h4>Quick Links</h4>
         <ul>
@@ -199,7 +210,6 @@
       </div>
     </div>
 
-    <!-- Footer Bottom -->
     <div class="footer-bottom">
       <p>© 2025 <strong>Paramount Propack Pvt. Ltd.</strong> | All Rights Reserved</p>
     </div>
